@@ -1,50 +1,92 @@
-# Welcome to your Expo app 👋
+# Flying QA
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Flying QA is a Flappy Bird-style mobile game built with React Native and Expo. Guide the bird through the obstacles, score points by passing them, and try to beat your high score.
 
-## Get started
+## Gameplay
 
-1. Install dependencies
+- Tap the screen to make the bird fly upward.
+- Avoid the top and bottom obstacles.
+- Earn one point each time an obstacle pair is cleared.
+- A collision ends the round. Press **Press to start** to begin a new game.
 
-   ```bash
-   npm install
-   ```
+## Requirements
 
-2. Start the app
+- Node.js with npm
+- Expo CLI through the project dependency
+- Expo Go, an Android emulator, an iOS simulator, or a development build
+- An Expo/EAS account for cloud builds
 
-   ```bash
-   npx expo start
-   ```
+The project uses Expo SDK 54, React Native 0.81, and Expo Router.
 
-In the output, you'll find options to open the app in a
+## Setup
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Clone the repository, install dependencies, and start the development server:
 
 ```bash
-npm run reset-project
+npm install
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+When the server starts, use the interactive Expo terminal to open the app in Expo Go, an emulator, or a simulator.
 
-## Learn more
+You can also start a specific target directly:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm run android
+npm run ios
+npm run web
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Quality Checks
 
-## Join the community
+Run the project linter before committing changes:
 
-Join our community of developers creating universal apps.
+```bash
+npm run lint
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Builds
+
+Install and authenticate with EAS CLI before creating cloud builds:
+
+```bash
+npm install --global eas-cli
+
+```
+
+Available build profiles are defined in `eas.json`:
+
+```bash
+eas build --profile development
+eas build --profile preview
+eas build --profile production
+```
+
+The development profile creates a development client, preview creates an internal distribution build, and production creates a store-ready build with automatic version increments.
+
+## Project Structure
+
+```text
+app/                 Expo Router screens and layout
+components/          Bird, obstacle, and floor renderers
+entities/            Matter.js game entities
+utils/               Random obstacle generation
+physics.js           Gravity, tap input, movement, scoring, and collisions
+images/              Game artwork used by the main screen
+assets/images/       Expo app icons and splash-screen assets
+app.json             Expo app configuration and native identifiers
+eas.json             EAS build and submission profiles
+```
+
+The main game screen is [app/index.tsx](app/index.tsx). Physics and collision behavior lives in [physics.js](physics.js).
+
+## Changing the App Name
+
+Update the `expo.name` field in [app.json](app.json). The `slug` identifies the Expo project and can remain unchanged unless the project identity also needs to change.
+
+## Useful Documentation
+
+- [Expo documentation](https://docs.expo.dev/)
+- [Expo Router documentation](https://docs.expo.dev/router/introduction/)
+- [EAS Build documentation](https://docs.expo.dev/build/introduction/)
+- [Matter.js documentation](https://brm.io/matter-js/docs/)
