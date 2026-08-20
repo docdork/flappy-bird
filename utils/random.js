@@ -21,7 +21,7 @@ export const getPipeSizePosPair = (addToPosX = 0) => {
   };
 
   const pipeBottom = {
-    pos: { x: windowWidth + addToPosX, y: windowHeight * 2 + 200 + yPosTop },
+    pos: { x: windowWidth + addToPosX, y: windowHeight * 2 + 260 + yPosTop },
     size: { height: windowHeight * 2, width: 75 },
   };
   return { pipeTop, pipeBottom };

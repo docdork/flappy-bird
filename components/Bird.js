@@ -1,6 +1,6 @@
 import Matter from "matter-js";
 import React from "react";
-import { View } from "react-native";
+import { Image } from "react-native";
 
 const Bird = (props) => {
   const widthBody = props.body.bounds.max.x - props.body.bounds.min.x;
@@ -12,18 +12,17 @@ const Bird = (props) => {
   const color = props.color;
 
   return (
-    <View
+    <Image
+      source={require("../images/flying_qa_nurse.png")}
       style={{
-        borderWidth: 1,
-        borderColor: color,
-        borderStyle: "solid",
+        width: widthBody * 3,
+        height: heightBody * 3,
         position: "absolute",
-        left: xBody,
-        top: yBody,
-        width: widthBody,
-        height: heightBody,
+        left: xBody - widthBody,
+        top: yBody - heightBody,
+        
       }}
-    ></View>
+    />
   );
 };
 
