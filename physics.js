@@ -1,8 +1,48 @@
-const Physics = (entities, {touches, time}) => {
-    let engine = entities.physics.engine;
-    let world = entities.physics.world;
-    Matter.Engine.update(engine, time.delta);
-    return entities;
-}
+import Matter from "matter-js";
+import { Dimensions } from "react-native";
+import { getPipeSizePosPair } from "./utils/random";
+
+const Physics = (entities, { touches, time, dispatch }) => {
+  let engine = entities.physics.engine;
+  let world = entities.physics.world;
+
+  touches
+    .filter((t) => t.type === "press")
+    .forEach((t) => {
+      let bird = entities.Bird.body;
+      Matter.Body.setVelocity(bird, { x: 0, y: -10 });
+    });
+  Matter.Engine.update(engine, time.delta);
+
+  for (let index = 1; index <= 2; index++) {
+    if (entities[`ObstacleTop${index}`].body.bounds.max.x <= 0) {
+      const pipeSizePosPair = getPipeSizePosPair(
+        Dimensions.get("window").width * 0.9,
+      );
+      Matter.Body.setPosition(
+        entities[`ObstacleTop${index}`].body,
+        pipeSizePosPair.pipeTop.pos,
+      );
+      Matter.Body.setPosition(
+        entities[`ObstacleBottom${index}`].body,
+        pipeSizePosPair.pipeBottom.pos,
+      );
+    }
+
+    Matter.Body.translate(entities[`ObstacleTop${index}`].body, {
+      x: -3,
+      y: 0,
+    });
+    Matter.Body.translate(entities[`ObstacleBottom${index}`].body, {
+      x: -3,
+      y: 0,
+    });
+  }
+
+  Matter.Events.on(engine, "collisionStart", (event) => {
+    dispatch({ type: "game_over" });
+  });
+  return entities;
+};
 
 export default Physics;
